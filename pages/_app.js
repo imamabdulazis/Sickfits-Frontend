@@ -6,16 +6,19 @@ import Nprogress from 'nprogress';
 // import 'nprogress/nprogress.css';
 ///TODO : custom style progress
 import '../components/styles/nprogress.css';
+import { ApolloProvider } from "@apollo/client";
 
 Router.events.on('routeChangeStart', () => Nprogress.start());
 Router.events.on('routeChangeComplete', () => Nprogress.done());
 Router.events.on('routeChangeError', () => Nprogress.done());
 
 
-export default function MyApp({ Component, pageProps }) {
+export default function MyApp({ Component, pageProps, apollo }) {
   return (
-    <Page>
-      <Component {...pageProps} />
-    </Page>
+    <ApolloProvider client={apollo}>
+      <Page>
+        <Component {...pageProps} />
+      </Page>
+    </ApolloProvider>
   )
 }
