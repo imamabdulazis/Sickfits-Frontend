@@ -23,7 +23,7 @@ const ALL_PRODUCT_QUERY = gql`
 
 const ProductListStyle = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 60px;
 `
 

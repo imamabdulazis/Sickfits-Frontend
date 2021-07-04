@@ -1,6 +1,30 @@
+import { gql, useMutation } from '@apollo/client';
 import { useState } from 'react';
 import useForm from '../lib/useForm';
 import FormStyles from './styles/Form';
+import DisplayError from './ErrorMessage';
+
+const CREATE_PRODUCT_MUTATION = gql`
+  mutation CREATE_PRODUCT_MUTATION(
+    # whic variable ara getting passed in? and what type are they
+    $name:String!
+    $description:String!
+    $price:Int!
+    $image:Upload
+  ){
+      createProduct(
+        data:{
+          name:$name
+          description:$description
+          price:$price
+          status:"AVAILABLE"
+          photo:{ create:{ image:$image altText:$name } }
+        }
+      ){
+        id
+      }
+    }
+`;
 
 function CreateProduct() {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
@@ -11,15 +35,30 @@ function CreateProduct() {
   });
 
 
+  const [createProduct, { loading, error, data }] = useMutation(CREATE_PRODUCT_MUTATION, {
+    variables: inputs
+  })
+
+
   return (
-    <FormStyles onSubmit={(e) => {
+    <FormStyles onSubmit={async (e) => {
       e.preventDefault();
-      console.log(inputs)
+      console.log(inputs);
+      // submit input from the backend
+      const res = await createProduct();
+
+      console.log(res);
     }}>
-      <fieldset>
+      {error && <DisplayError />}
+      <fieldset disabled={loading} aria-busy={loading}>
         Image
         <label htmlFor="image"  >
-          <input type="file" id="image" onChange={handleChange} />
+          <input
+            required
+            type="file"
+            id="image"
+            name="image"
+            onChange={handleChange} />
         </label>
         <label htmlFor="name">
           Name
@@ -60,4 +99,4 @@ function CreateProduct() {
   )
 }
 
-export default CreateProduct
+export default CreateProduct;
