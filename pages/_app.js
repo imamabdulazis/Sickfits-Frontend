@@ -11,7 +11,7 @@ import { ApolloProvider } from "@apollo/client";
 
 /*
   feature to create line progress indicator top of screen
-  and make smoth loading page 
+  and make smoth loading page
 */
 Router.events.on('routeChangeStart', () => Nprogress.start());
 Router.events.on('routeChangeComplete', () => Nprogress.done());
