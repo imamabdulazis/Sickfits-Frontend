@@ -9,6 +9,10 @@ import withData from '../lib/withData';
 import '../components/styles/nprogress.css';
 import { ApolloProvider } from "@apollo/client";
 
+/*
+  feature to create line progress indicator top of screen
+  and make smoth loading page 
+*/
 Router.events.on('routeChangeStart', () => Nprogress.start());
 Router.events.on('routeChangeComplete', () => Nprogress.done());
 Router.events.on('routeChangeError', () => Nprogress.done());

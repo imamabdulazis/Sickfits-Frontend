@@ -4,6 +4,8 @@ import useForm from '../lib/useForm';
 import FormStyles from './styles/Form';
 import DisplayError from './ErrorMessage';
 
+
+///query for getting data from the server using graphql apollo client
 const CREATE_PRODUCT_MUTATION = gql`
   mutation CREATE_PRODUCT_MUTATION(
     # whic variable ara getting passed in? and what type are they
@@ -29,9 +31,9 @@ const CREATE_PRODUCT_MUTATION = gql`
 function CreateProduct() {
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     image: '',
-    name: 'Nice shoues',
-    price: 12323,
-    description: 'The Nice Shoes'
+    name: '',
+    price: 0,
+    description: ''
   });
 
 
@@ -39,17 +41,13 @@ function CreateProduct() {
     variables: inputs
   })
 
-
   return (
     <FormStyles onSubmit={async (e) => {
       e.preventDefault();
-      console.log(inputs);
-      // submit input from the backend
-      const res = await createProduct();
-
-      console.log(res);
+      await createProduct();
+      clearForm();
     }}>
-      {error && <DisplayError />}
+      <DisplayError error={error} />
       <fieldset disabled={loading} aria-busy={loading}>
         Image
         <label htmlFor="image"  >
