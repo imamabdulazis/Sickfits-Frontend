@@ -29,6 +29,7 @@ const CREATE_PRODUCT_MUTATION = gql`
 `;
 
 function CreateProduct() {
+  //using hooks to make clean code and reuse component hooks of form
   const { inputs, handleChange, clearForm, resetForm } = useForm({
     image: '',
     name: '',
@@ -36,16 +37,20 @@ function CreateProduct() {
     description: ''
   });
 
-
+  //create product to server using graphql function and make sure variable is same with query
   const [createProduct, { loading, error, data }] = useMutation(CREATE_PRODUCT_MUTATION, {
     variables: inputs
   })
 
   return (
     <FormStyles onSubmit={async (e) => {
+      //to disable reload when user submit button
       e.preventDefault();
+      //add product to api
       await createProduct();
+      //create form when product have been send to server
       clearForm();
+
     }}>
       <DisplayError error={error} />
       <fieldset disabled={loading} aria-busy={loading}>
